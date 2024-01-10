@@ -30,6 +30,31 @@ public class Subject {
         return calcGrade(sum / count);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int[] getScores() {
+        return scores;
+    }
+
+    public char[] getGrades() {
+        return grades;
+    }
+
+    public boolean isMandatory() {
+        return isMandatory;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMandatory(boolean mandatory) {
+        isMandatory = mandatory;
+    }
+
+
     private char calcGrade(int score) {
         //// 처리
         return 'A';
