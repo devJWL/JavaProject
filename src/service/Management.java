@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Management {
     private  ArrayList<Student> student = new ArrayList<Student>();
     private  ArrayList<Subject> subject = new ArrayList<Subject>();
-
     private static Scanner sc = new Scanner(System.in);
 
     public void initData(){
