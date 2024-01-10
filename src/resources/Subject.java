@@ -1,30 +1,37 @@
 package resources;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Subject {
-    private String subjectName;
-    private int[] subjectScore = new int[10];
-    private int subjectAverage;
-    private char[] subjectGrade = new char[10];
+    private String name;
+
+    private final int[] scores = new int[10];
+    private final char[] grades = new char[10];
     private boolean isMandatory;
 
-    public Subject(String name, boolean isMandatory){
-        this.subjectName = name;
+    public Subject(String name, boolean isMandatory) {
+        this.name = name;
         this.isMandatory = isMandatory;
+        Arrays.fill(scores, -1);
     }
 
-    // Getter
-    public String getSubjectName(){
-        return subjectName;
+    public char getAverage() {
+        int count = 0;
+        int sum = 0;
+        for (int score : scores) {
+            if (score == -1){
+                continue;
+            }
+            sum += score;
+            ++count;
+        }
+        return calcGrade(sum / count);
     }
-    public int getSubjectScore(int index){
-        return subjectScore[index];
-    }
-    public char getSubjectGrade(int index){
-        return subjectGrade[index];
-    }
-    public boolean getIsMandatory(){
-        return isMandatory;
-    }
-    //public int getSubjectAverage(){}
 
+    private char calcGrade(int score) {
+        //// 처리
+        return 'A';
+    }
 }

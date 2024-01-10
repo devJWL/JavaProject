@@ -80,9 +80,11 @@ public class Management {
         }
     }
 
-    public void createStudent(){}
-    public void deleteStudent(){}
-    public void inquireStudent(){}
+    public void createStudent(){}  // 저
+    public void deleteStudent(){}  // 상엽
+    public void inquireStudent(){} // 유라
+
+
     public void scoreMenu(){
         boolean flag = true;
         while (flag) {
@@ -94,6 +96,7 @@ public class Management {
             System.out.println("4. 메인 화면 이동");
             System.out.println("==================================");
             int input = sc.nextInt();
+
 
             switch (input) {
                 case 1 -> createScore(); // 수강생의 과목별 시험 회차 및 점수 등록
@@ -107,6 +110,7 @@ public class Management {
             }
         }
     }
+
     public void createScore(){}
     public void updateScore(){}
     public void inquireScore(){}
@@ -116,6 +120,4 @@ public class Management {
         System.out.println("내일배움캠프 스프링 수강생 관리 프로그램");
         System.out.println("==================================\n");
     }
-
-
 }

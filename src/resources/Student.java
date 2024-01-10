@@ -1,28 +1,50 @@
 package resources;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Student {
-    private String studentName;
-    private int studentId;
-    private String studentStatus;
-    public Student(String name, int id, String status){
-        this.studentName = name;
-        this.studentId = id;
-        this.studentStatus = status;
+    private String name;
+    private int id;
+    private String status;
+    private final List<Subject> mandatorySubject = new ArrayList<>();
+    private final List<Subject> choiceSubject = new ArrayList<>();
+
+    public Student(String name, int id, String status) {
+        this.name = name;
+        this.id = id;
+        this.status = status;
     }
 
-    // Getter
-    public String getStudentName(){
-        return studentName;
+    public String getName() {
+        return name;
     }
 
-    public int getStudentId(){
-        return studentId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getStudentStatus(){
-        return studentStatus;
+    public int getId() {
+        return id;
     }
-    public void addSubject(Subject subject){
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<Subject> getMandatorySubject() {
+        return mandatorySubject;
+    }
+
+    public List<Subject> getChoiceSubject() {
+        return choiceSubject;
     }
 }
