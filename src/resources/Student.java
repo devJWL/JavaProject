@@ -47,4 +47,11 @@ public class Student {
     public List<Subject> getChoiceSubject() {
         return choiceSubject;
     }
+
+    public void addSubject(Subject subject){
+        if(subject.isMandatory())
+            mandatorySubject.add(subject);
+        else
+            choiceSubject.add(subject);
+    }
 }
