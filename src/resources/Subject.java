@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Subject {
     private String name;
-
     private final int[] scores = new int[10];
     private final char[] grades = new char[10];
     private boolean isMandatory;
@@ -15,6 +14,30 @@ public class Subject {
         this.name = name;
         this.isMandatory = isMandatory;
         Arrays.fill(scores, -1);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int[] getScores() {
+        return scores;
+    }
+
+    public char[] getGrades() {
+        return grades;
+    }
+
+    public boolean isMandatory() {
+        return isMandatory;
+    }
+
+    public void setMandatory(boolean mandatory) {
+        isMandatory = mandatory;
     }
 
     public char getAverage() {
