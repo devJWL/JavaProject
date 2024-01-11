@@ -426,6 +426,7 @@ public class Management {
             else if (score >= 60) return 'F';
             else return 'N';
         }
+
         if (score >= 90) return 'A';
         else if (score >= 80) return 'B';
         else if (score >= 70) return 'C';
