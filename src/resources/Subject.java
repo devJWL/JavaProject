@@ -39,22 +39,4 @@ public class Subject {
     public void setMandatory(boolean mandatory) {
         isMandatory = mandatory;
     }
-
-    public char getAverage() {
-        int count = 0;
-        int sum = 0;
-        for (int score : scores) {
-            if (score == -1){
-                continue;
-            }
-            sum += score;
-            ++count;
-        }
-        return calcGrade(sum / count);
-    }
-
-    private char calcGrade(int score) {
-        //// 처리
-        return 'A';
-    }
 }
