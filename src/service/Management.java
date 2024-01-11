@@ -3,6 +3,7 @@ package service;
 import resources.Student;
 import resources.Subject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Management {
@@ -16,10 +17,11 @@ public class Management {
         Subject spring = new Subject("Spring", true);
         Subject jpa = new Subject("JPA", true);
         Subject mysql = new Subject("MySQL", true);
-        Subject designPattern = new Subject("디자인 패턴", false);
-        Subject springSecurity = new Subject("Spring Security", false);
+        Subject designPattern = new Subject("디자인패턴", false);
+        Subject springSecurity = new Subject("SpringSecurity", false);
         Subject redis = new Subject("Redis", false);
         Subject mongodb = new Subject("MongoDB", false);
+
         subject.add(java);
         subject.add(oop);
         subject.add(spring);
@@ -57,6 +59,7 @@ public class Management {
         boolean flag = true;
         while (flag) {
             printHeader();
+            System.out.printf("현재 수강생 : %d 명\n",student.size());
             System.out.println("수강생 관리 메뉴 입니다.");
             System.out.println("아래 메뉴 중 하나를 선택해주세요.");
             System.out.println("1. 수강생 등록");
@@ -65,7 +68,6 @@ public class Management {
             System.out.println("4. 메인 화면 이동");
             System.out.println("==================================");
             int input = sc.nextInt();
-
             switch (input) {
                 case 1 -> createStudent(); // 수강생 등록
                 case 2 -> deleteStudent(); // 수강생 삭제
@@ -79,9 +81,128 @@ public class Management {
         }
     }
 
-    public void createStudent(){}  // 저
-    public void deleteStudent(){}  // 상엽
-    public void inquireStudent(){} // 유라
+    public void createStudent(){
+        int idInput;
+        int yesno;
+        Boolean flag;
+        String nameInput;
+        String subjectInput;
+        String statusInput;
+        do {
+            flag = true;
+            printHeader();
+            System.out.println("수강생 정보 등록 메뉴 입니다.\n");
+            System.out.println("수강생의 고유번호를 입력해주세요");
+            idInput = sc.nextInt();
+            for (Student students : student)
+                if (students.getId() == idInput) {
+                    flag = false;
+                    System.out.println("고유번호가 중복되었습니다. 다시 입력해주세요.");
+                    break;
+                }
+        }while(!flag);
+        sc.nextLine();
+            System.out.println("\n수강생의 이름을 입력해주세요");
+            nameInput = sc.nextLine();
+            System.out.println("\n수강생의 상태를 입력해주세요 (GREEN RED YELLOW)");
+            statusInput = sc.nextLine();
+            do {
+                System.out.println("\n필수 과목 목록 : Java 객체지향 Spring JPA MySQL");
+                System.out.println("수강생의 필수 과목 목록을 입력해주세요 ( 띄어쓰기로 구분해주세요 )");
+                subjectInput = sc.nextLine();
+                if(subjectInput.split(" ").length<3) {
+                    System.out.println("필수과목이 3개 미만입니다. 다시 입력해주세요.");
+                    continue;
+                }
+                for (String sub : subjectInput.split(" ")){
+                    flag = false;
+                    for (Subject subjects : subject) {
+                        if(!subjects.isMandatory())
+                            continue;
+                        if (sub.equals(subjects.getName()))
+                            flag = true;
+                    }
+                }
+                if(!flag)
+                    System.out.println("불가능한 과목명이 포함되어있습니다. 다시 입력해주세요.");
+            }while(!(subjectInput.split(" ").length>=3&&flag));
+            String[] mandatory = subjectInput.split(" ");
+
+        do {
+            System.out.println("\n선택 과목 목록 : 디자인패턴 SpringSecurity Redis MongoDB");
+            System.out.println("수강생의 선택 과목 목록을 입력해주세요 ( 띄어쓰기로 구분해주세요)");
+            subjectInput = sc.nextLine();
+            if(subjectInput.split(" ").length<2) {
+                System.out.println("필수과목이 2개 미만입니다. 다시 입력해주세요.");
+                continue;
+            }
+            for (String sub : subjectInput.split(" ")){
+                flag = false;
+                for (Subject subjects : subject) {
+                    if(subjects.isMandatory())
+                        continue;
+                    if (sub.equals(subjects.getName()))
+                        flag = true;
+                }
+            }
+            if(!flag)
+                System.out.println("불가능한 과목명이 포함되어있습니다. 다시 입력해주세요.");
+        }while(subjectInput.split(" ").length>=3&&flag);
+        String[] choice = subjectInput.split(" ");
+        System.out.println("해당 수강생 정보를 계속 등록하시겠습니까?\n");
+        System.out.printf("%s 학생 | %-10d | 필수 과목 : %-20s | 선택 과목 : %-20s | 상태 : %-5s\n",nameInput,idInput, Arrays.toString(mandatory), Arrays.toString(choice),statusInput);
+        System.out.println("1. 확인");
+        System.out.println("2. 다시 입력");
+        yesno = sc.nextInt();
+        if(yesno==1){
+            Student studentInput = new Student(nameInput,idInput,statusInput);
+            for(String sub : mandatory) {
+                for (Subject subjects : subject)
+                    if (sub.equals(subjects.getName()))
+                        studentInput.addSubject(subjects);
+            }
+            for(String sub : choice) {
+                for (Subject subjects : subject)
+                    if (sub.equals(subjects.getName()))
+                        studentInput.addSubject(subjects);
+            }
+            student.add(studentInput);
+            System.out.println("수강생 정보가 등록되었습니다.");
+        }
+    }
+    public void deleteStudent(){
+        int idInput;
+        int yesno;
+        boolean flag = false;
+            printHeader();
+            System.out.println("수강생 삭제 메뉴 입니다.\n");
+            System.out.println("수강생의 고유번호를 입력해주세요");
+            idInput = sc.nextInt();
+            for (Student students : student)
+                if (students.getId() == idInput)
+                    flag = true;
+            if(!flag)
+                System.out.println("잘못된 고유번호입니다.");
+            else{
+                for (Student students : student)
+                    if (students.getId() == idInput){
+                        System.out.printf("%s 학생 | %-10d | 상태 : %-5s\n",students.getName(),idInput, students.getStatus());
+                        System.out.println("해당 수강생 정보를 삭제하시겠습니까?\n");
+                        System.out.println("1. 네");
+                        System.out.println("2. 아니오");
+                        yesno = sc.nextInt();
+                        if(yesno==1){
+                            student.remove(students);
+                            System.out.println("수강생 정보가 삭제되었습니다.");
+                        }
+                        break;
+                    }
+            }
+
+
+    }
+
+    public void inquireStudent(){}
 
 
     public void scoreMenu(){
@@ -111,8 +232,215 @@ public class Management {
     }
 
     public void createScore(){}
-    public void updateScore(){}
-    public void inquireScore(){}
+    public void updateScore(){
+        while(true) {
+            printHeader();
+            System.out.println("수강생 점수 수정 페이지입니다.");
+            System.out.println("수강생의 고유 번호를 입력해주세요.");
+
+            // 학생 찾기
+            Student foundStudent;
+            while (true) {
+                foundStudent = null;
+                int id = sc.nextInt();
+                for (Student s : student) {
+                    if (s.getId() == id) {
+                        foundStudent = s;
+                    }
+                }
+                if (foundStudent != null) break;
+                System.out.println("존재하지 않는 고유번호입니다. 다시 입력해주세요.");
+            }
+            // 학생 찾기 완료
+
+
+            // 과목 찾기
+            Subject foundSubject = null;
+            int type;  // 선택, 필수 여부
+            System.out.println("과목을 입력해주세요");
+
+            while (true) {
+                type = 0;
+                String subjectName = sc.next();
+                for (Subject sub : foundStudent.getMandatorySubject()) {
+                    if (subjectName.equals(sub.getName())) {
+                        foundSubject = sub;
+                        type = 1;
+                    }
+                }
+                if (type != 0) break;
+
+                for (Subject sub : foundStudent.getChoiceSubject()) {
+                    if (subjectName.equals(sub.getName())) {
+                        foundSubject = sub;
+                        type = 2;
+                    }
+                }
+                if (type != 0) break;
+                System.out.println("존재하지 않는 과목입니다. 다시 입력해주세요.");
+            }
+            // 과목 찾기 완료
+
+
+            // 회차 찾기
+            int foundRound;
+            System.out.println("회차를 입력해주세요");
+
+            while (true) {
+                String input = sc.next();
+                // 숫자 아닌 경우 예외처리
+                if (isDigit(input)) {
+                    System.out.println("숫자값을 입력해주세요");
+                    continue;
+                }
+                int round = Integer.parseInt(input);
+                if (round < 1 || round > 10) {
+                    System.out.println("회차는 1 ~ 10회차 사이입니다. 다시 입력해주세요.");
+                    continue;
+                }
+                int[] scores = foundSubject.getScores();
+                if (scores[round] == -1) {
+                    System.out.println("아직 점수가 등록되지 않은 회차입니다.");
+                    continue;
+                }
+                foundRound = round;
+                break;
+            }
+            // 회차 찾기 완료
+
+            // 점수 입력
+            int score;
+            System.out.println("점수를 입력해주세요.");
+            while (true) {
+                String input = sc.next();
+                if (isDigit(input)) {
+                    System.out.println("숫자값을 입력해주세요");
+                    continue;
+                }
+                score = Integer.parseInt(input);
+                if (score < 0 || score > 100) {
+                    System.out.println("점수는 0 ~ 100점 사이입니다. 다시 입력해주세요.");
+                    continue;
+                }
+                break;
+            }
+            // 점수 입력 완료
+            System.out.println("해당 점수 정보를 계속 수정하시겠습니까?");
+            System.out.printf("기존 정보 : %s 학생 | %d | %s | %d | %d\n", foundStudent.getName(), foundStudent.getId(), foundSubject.getName(),
+                                                                    foundRound, foundSubject.getScores()[foundRound]);
+            System.out.printf("기존 정보 : %s 학생 | %d | %s | %d | %d\n", foundStudent.getName(), foundStudent.getId(), foundSubject.getName(), foundRound, score);
+            int sel = sc.nextInt();
+            if (sel == 1) {
+                foundSubject.getScores()[foundRound] = score;
+                foundSubject.getGrades()[foundRound] = calcGrade(score, foundSubject.isMandatory());
+                break;
+            }
+            sel = sc.nextInt();
+            if (sel == 1) {
+                continue;
+            }
+            break;
+        }
+    }
+
+    public void inquireScore() {
+        while (true) {
+            printHeader();
+            System.out.println("수강생 점수 수정 페이지입니다.");
+            System.out.println("수강생의 고유 번호를 입력해주세요.");
+
+            // 학생 찾기
+            Student foundStudent;
+            while (true) {
+                foundStudent = null;
+                int id = sc.nextInt();
+                for (Student s : student) {
+                    if (s.getId() == id) {
+                        foundStudent = s;
+                    }
+                }
+                if (foundStudent != null) break;
+                System.out.println("존재하지 않는 고유번호입니다. 다시 입력해주세요.");
+            }
+            // 학생 찾기 완료
+
+
+            // 과목 찾기
+            Subject foundSubject = null;
+            int type;  // 선택, 필수 여부
+            System.out.println("과목을 입력해주세요");
+
+            while (true) {
+                type = 0;
+                String subjectName = sc.next();
+                for (Subject sub : foundStudent.getMandatorySubject()) {
+                    if (subjectName.equals(sub.getName())) {
+                        foundSubject = sub;
+                        type = 1;
+                    }
+                }
+                if (type != 0) break;
+
+                for (Subject sub : foundStudent.getChoiceSubject()) {
+                    if (subjectName.equals(sub.getName())) {
+                        foundSubject = sub;
+                        type = 2;
+                    }
+                }
+                if (type != 0) break;
+                System.out.println("존재하지 않는 과목입니다. 다시 입력해주세요.");
+            }
+            // 과목 찾기 완료
+
+            System.out.printf("%s 학생의 %s 과목 회차별 등급\n", foundStudent.getName(), foundSubject.getName());
+            int[] scores = foundSubject.getScores();
+            char[] grades = foundSubject.getGrades();
+            System.out.print("회차 ");
+            for (int i = 0; i < 10; ++i) {
+                if (scores[i] == -1) break;
+                System.out.printf("| %2d회차", i + 1);
+            }
+            System.out.println();
+
+            System.out.print("점수 ");
+            for (int i = 0; i < 10; ++i) {
+                if (scores[i] == -1) break;
+                System.out.printf("| %4d", scores[i]);
+            }
+            System.out.println();
+
+            System.out.print("등급 ");
+            for (int i = 0; i < 10; ++i) {
+                if (scores[i] == -1) break;
+                System.out.printf("| %4c", grades[i]);
+            }
+        }
+    }
+
+    private char calcGrade(int score, boolean mandatory) {
+        if (mandatory) {
+            if (score >= 95) return 'A';
+            else if (score >= 90) return 'B';
+            else if (score >= 80) return 'C';
+            else if (score >= 70) return 'D';
+            else if (score >= 60) return 'F';
+            else return 'N';
+        }
+        if (score >= 90) return 'A';
+        else if (score >= 80) return 'B';
+        else if (score >= 70) return 'C';
+        else if (score >= 60) return 'D';
+        else if (score >= 50) return 'F';
+        else return 'N';
+    }
+
+    private boolean isDigit(String number) {
+        char[] chars = number.toCharArray();
+        for (char ch : chars) {
+            if (ch < '0' || ch > '9') return true;
+        }
+        return false;
+    }
 
     public void printHeader(){
         System.out.println("==================================");
