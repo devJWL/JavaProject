@@ -1,5 +1,6 @@
 package service;
 
+import exception.NoDataException;
 import resources.Student;
 import resources.Subject;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class Management {
         subject.add(mongodb);
     }
 
-    public void mainMenu(){
+    public void mainMenu() throws Exception{
         boolean flag = true;
         while (flag) {
             printHeader();
@@ -84,7 +85,7 @@ public class Management {
     public void inquireStudent(){} // 유라
 
 
-    public void scoreMenu(){
+    public void scoreMenu() throws Exception {
         boolean flag = true;
         while (flag) {
             printHeader();
@@ -110,7 +111,62 @@ public class Management {
         }
     }
 
-    public void createScore(){}
+    public void createScore() throws Exception {
+        printHeader();
+        System.out.println("수강생 점수 등록 페이지 입니다.");
+        System.out.println("수강생의 고유 번호는 입력해주세요.");
+        int id = sc.nextInt();
+
+        System.out.println("과목을 입력해주세요.");
+        String subject = sc.next();
+        System.out.println("회차를 입력해주세요.");
+        int round = sc.nextInt();
+        System.out.println("점수를 입력해주세요.");
+        int score = sc.nextInt();
+
+        Student std = getStudentById(id);
+        std.getMandatorySubject().add(new Subject("Java",true)); //Test
+        Subject sbj = getSubjectByName(subject);
+
+        System.out.println("해당 점수 정보를 계속 등록하시겠습니까?\n");
+        showStudentInfo(std.getName(),id,subject,round,score);
+
+        System.out.println("1. 확인");
+        System.out.println("2. 다시 입력");
+        int choice = sc.nextInt();
+
+        if(choice == 1){
+            std.setScorePerRound(sbj,round,score);
+            System.out.println("점수 정보가 등록되었습니다. 다음 점수 정보를 입력하시겠습니까?\n ");
+            System.out.println("1. 네");
+            System.out.println("2. 아니오");
+            int next = sc.nextInt();
+            if(next == 1) createScore();
+            else if(next==2) mainMenu();
+        }
+        else if(choice == 2){
+            createScore();
+        }
+    }
+
+    public Student getStudentById(int id){
+//        return student.stream().filter(s -> s.getId() == id).toList().get(0);
+        return new Student("YURA",100);  // Test
+    }
+    public Subject getSubjectByName(String sub){
+        return subject.stream().filter(s -> s.getName().equals(sub)).toList().get(0);
+    }
+    public void showStudentInfo(String name,int id,String subject,int round,int score) {
+        System.out.printf("%10s",name);
+        System.out.printf("%10s"," | ");
+        System.out.printf("%10s",id);
+        System.out.printf("%10s"," | ");
+        System.out.printf("%10s",subject);
+        System.out.printf("%10s"," | ");
+        System.out.printf("%3s",round);
+        System.out.printf("%5s"," | ");
+        System.out.printf("%5s%n",score);
+    }
     public void updateScore(){}
     public void inquireScore(){}
 
