@@ -10,7 +10,7 @@ public class Student {
     private final List<Subject> mandatorySubject = new ArrayList<>();
     private final List<Subject> choiceSubject = new ArrayList<>();
 
-    public Student(String name, int id, String status) {
+    public Student(String name, int id, String status){
         this.name = name;
         this.id = id;
         this.status = status;
@@ -53,5 +53,19 @@ public class Student {
             mandatorySubject.add(subject);
         else
             choiceSubject.add(subject);
+    }
+
+    public void show(){
+        String mandatory = "";
+        String choice = "";
+        for(Subject mansub : mandatorySubject ) {
+            mandatory += mansub.getName();
+            mandatory += " ";
+        }
+        for(Subject chosub : mandatorySubject ) {
+            choice += chosub.getName();
+            choice += " ";
+        }
+        System.out.printf("%s 학생 | %-10d | 필수 과목 : %-20s | 선택 과목 : %-20s | 상태 : %-5s\n", name, id, mandatory, choice, status);
     }
 }
