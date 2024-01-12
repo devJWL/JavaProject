@@ -16,11 +16,13 @@ public class Student {
     private final List<Subject> mandatorySubject = new ArrayList<>();
     private final List<Subject> choiceSubject = new ArrayList<>();
 
-    public Student(String name, int id) {
+
+    public Student(String name, int id, String status){
         this.name = name;
         this.id = id;
         this.status = "Green";
     }
+  
     public Student(String name, int id, String status) {
         this(name,id);
         this.status = status;
@@ -66,6 +68,7 @@ public class Student {
         return choiceSubject;
     }
 
+
     // 해당 과목 회차당 점수 설정 (수강 과목이 아닐 경우 예외 처리 완료)
     public void setScorePerRound(Subject subject, int round, int score) throws NoDataException {
         if(containSubject(subject.getName())){
@@ -90,5 +93,26 @@ public class Student {
         else{
             throw new NoDataException("해당하는 과목이 없습니다.");
         }
+    }
+  
+    public void addSubject(Subject subject){
+        if(subject.isMandatory())
+            mandatorySubject.add(subject);
+        else
+            choiceSubject.add(subject);
+    }
+
+    public void show(){
+        String mandatory = "";
+        String choice = "";
+        for(Subject mansub : mandatorySubject ) {
+            mandatory += mansub.getName();
+            mandatory += " ";
+        }
+        for(Subject chosub : mandatorySubject ) {
+            choice += chosub.getName();
+            choice += " ";
+        }
+        System.out.printf("%s 학생 | %-10d | 필수 과목 : %-20s | 선택 과목 : %-20s | 상태 : %-5s\n", name, id, mandatory, choice, status);
     }
 }
