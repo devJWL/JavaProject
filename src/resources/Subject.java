@@ -58,29 +58,4 @@ public class Subject {
         this.isMandatory = isMandatory;
         Arrays.fill(scores, -1);
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int[] getScores() {
-        return scores;
-    }
-
-    public char[] getGrades() {
-        return grades;
-    }
-
-    public boolean isMandatory() {
-        return isMandatory;
-    }
-
-    public void setMandatory(boolean mandatory) {
-        isMandatory = mandatory;
-    }
 }
-
