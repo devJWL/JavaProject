@@ -17,12 +17,12 @@ public class Student {
     private final List<Subject> choiceSubject = new ArrayList<>();
 
 
-    public Student(String name, int id, String status){
+    public Student(String name, int id){
         this.name = name;
         this.id = id;
         this.status = "Green";
     }
-  
+
     public Student(String name, int id, String status) {
         this(name,id);
         this.status = status;
@@ -94,7 +94,7 @@ public class Student {
             throw new NoDataException("해당하는 과목이 없습니다.");
         }
     }
-  
+
     public void addSubject(Subject subject){
         if(subject.isMandatory())
             mandatorySubject.add(subject);
