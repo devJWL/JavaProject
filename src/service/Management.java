@@ -276,8 +276,6 @@ public class Management {
                 if(stu.getStatus().equals(status))
                     stu.show();
         }
-        else {
-        }
     }
 
     public void scoreMenu() throws Exception {
@@ -383,7 +381,6 @@ public class Management {
             for(int j=0;j<10;j++){
                 showStudentInfo(std.getName(),std.getId(),std.getAllSubject().get(i).getName(),j+1,std.getAllSubject().get(i).getScores()[j]);
             }
-
         }
     }
 
@@ -467,7 +464,7 @@ public class Management {
                     continue;
                 }
                 int[] scores = foundSubject.getScores();
-                if (scores[round] == -1) {
+                if (scores[round - 1] == -1) {
                     System.out.println("아직 점수가 등록되지 않은 회차입니다.");
                     continue;
                 }
@@ -493,28 +490,32 @@ public class Management {
                 break;
             }
             // 점수 입력 완료
-            System.out.println("해당 점수 정보를 계속 수정하시겠습니까?");
-            System.out.printf("기존 정보 : %s 학생 | %d | %s | %d | %d\n", foundStudent.getName(), foundStudent.getId(), foundSubject.getName(),
-                    foundRound, foundSubject.getScores()[foundRound]);
-            System.out.printf("기존 정보 : %s 학생 | %d | %s | %d | %d\n", foundStudent.getName(), foundStudent.getId(), foundSubject.getName(), foundRound, score);
+            System.out.println("해당 점수로 수정하시겠습니까?");
+            System.out.printf("기존 정보 : %s 학생 | id : %d | 과목 : %s | %d회차 | %d점\n", foundStudent.getName(), foundStudent.getId(), foundSubject.getName(),
+                    foundRound, foundSubject.getScores()[foundRound - 1]);
+            System.out.printf("변경 정보 : %s 학생 | id : %d | 과목 : %s | %d회차 | %d점\n", foundStudent.getName(), foundStudent.getId(), foundSubject.getName(), foundRound, score);
+            System.out.println("1. 네        2. 아니오");
             int sel = sc.nextInt();
             if (sel == 1) {
-                foundSubject.getScores()[foundRound] = score;
-                foundSubject.getGrades()[foundRound] = calcGrade(score, foundSubject.isMandatory());
-                break;
+                foundSubject.getScores()[foundRound - 1] = score;
+                foundSubject.getGrades()[foundRound - 1] = calcGrade(score, foundSubject.isMandatory());
             }
+            System.out.println("수강생 점수 수정을 계속 하시겠습니까?");
+            System.out.println("1. 네        2. 아니오");
             sel = sc.nextInt();
             if (sel == 1) {
                 continue;
             }
-            break;
+            else {
+                break;
+            }
         }
     }
 
     public void inquireScore() {
         while (true) {
             printHeader();
-            System.out.println("수강생 점수 수정 페이지입니다.");
+            System.out.println("수강생 점수 조회 페이지입니다.");
             System.out.println("수강생의 고유 번호를 입력해주세요.");
 
             // 학생 찾기
@@ -565,22 +566,29 @@ public class Management {
             char[] grades = foundSubject.getGrades();
             System.out.print("회차 ");
             for (int i = 0; i < 10; ++i) {
-                if (scores[i] == -1) break;
-                System.out.printf("| %2d회차", i + 1);
+                System.out.printf("| %2d", i + 1);
             }
             System.out.println();
 
             System.out.print("점수 ");
             for (int i = 0; i < 10; ++i) {
-                if (scores[i] == -1) break;
-                System.out.printf("| %4d", scores[i]);
+                System.out.printf("| %2d", scores[i]);
             }
             System.out.println();
 
             System.out.print("등급 ");
             for (int i = 0; i < 10; ++i) {
-                if (scores[i] == -1) break;
-                System.out.printf("| %4c", grades[i]);
+                System.out.printf("| %2c", grades[i]);
+            }
+            System.out.println();
+            System.out.println("점수 목록을 계속 조회 하겠습니까?");
+            System.out.println("1.네              2.아니오");
+            int sel = sc.nextInt();
+            if (sel == 1) {
+                continue;
+            }
+            else {
+                break;
             }
         }
     }
