@@ -109,7 +109,7 @@ public class Student {
             mandatory += mansub.getName();
             mandatory += " ";
         }
-        for(Subject chosub : mandatorySubject ) {
+        for(Subject chosub : choiceSubject ) {
             choice += chosub.getName();
             choice += " ";
         }

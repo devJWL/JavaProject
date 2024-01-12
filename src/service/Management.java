@@ -86,8 +86,7 @@ public class Management {
         String nameInput;
         String subjectInput;
         String statusInput;
-
-        do {
+        do{
             printHeader();
             flag = true;
             System.out.println("수강생 정보 등록 메뉴 입니다.\n");
@@ -113,7 +112,7 @@ public class Management {
                 System.out.println("필수과목이 3개 미만입니다. 다시 입력해주세요.");
                 continue;
             }
-            for (String sub : subjectInput.split(" ")){
+            for(String sub : subjectInput.split(" ")){
                 flag = false;
                 for (Subject subjects : subjectList) {
                     if(!subjects.isMandatory())
@@ -146,7 +145,7 @@ public class Management {
             }
             if(!flag)
                 System.out.println("불가능한 과목명이 포함되어있습니다. 다시 입력해주세요.");
-        }while(subjectInput.split(" ").length>=3&&flag);
+        }while(!(subjectInput.split(" ").length>=3&&flag));
         String[] choice = subjectInput.split(" ");
         System.out.println("해당 수강생 정보를 계속 등록하시겠습니까?\n");
         System.out.printf("%-5s 학생 | %-10d | 필수 과목 : %-20s | 선택 과목 : %-20s | 상태 : %-5s\n",nameInput,idInput, Arrays.toString(mandatory), Arrays.toString(choice),statusInput);
